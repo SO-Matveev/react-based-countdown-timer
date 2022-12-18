@@ -4,11 +4,11 @@ import { useState, useEffect } from "react";
 import { getPadTime } from "./helpers/getPadTime";
 
 function App() {
-  const [timeLeft, setTimeLeft] = useState(60);
+  const [timeLeft, setTimeLeft] = useState(3600);
   const [isCounting, setIsCounting] = useState(false);
-  const hours = getPadTime(Math.floor(timeLeft / 60));
-  const minutes = getPadTime(Math.floor(timeLeft - (hours * 60) / 60));
-  const seconds = getPadTime(Math.floor(timeLeft - (hours * 60) / 60));
+  const hours = getPadTime(Math.floor((timeLeft / (60 * 60)) % 24));
+  const minutes = getPadTime(Math.floor((timeLeft / 60) % 60));
+  const seconds = getPadTime(Math.floor(timeLeft % 60));
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -24,7 +24,7 @@ function App() {
   }, [timeLeft, isCounting]);
   const handleStart = () => {
     if (timeLeft === 0) {
-      setTimeLeft(60);
+      setTimeLeft(3600);
     }
     setIsCounting(true);
   };
@@ -33,7 +33,7 @@ function App() {
   };
   const handleReset = () => {
     setIsCounting(false);
-    setTimeLeft(60);
+    setTimeLeft(3600);
   };
   return (
     <div className="app">
